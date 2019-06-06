@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require_relative 'payloads'
+require_relative 'check_rules'
 
 class Stub < Sinatra::Base
   include Payloads
@@ -12,26 +13,39 @@ class Stub < Sinatra::Base
 
   get '/businesses' do
     content_type :json
-    Payloads.business_get.to_json
+    Payloads::Business.business_get.to_json
   end
 
   get '/businesses/:businessId' do
     content_type :json
-    Payloads.business_detail_get.to_json
+    Payloads::Business.business_detail_get.to_json
   end
 
   get '/businesses/:businessId/journal' do
     content_type :json
-    Payloads.journal_list_get.to_json
+    Payloads::Business.journal_list_get.to_json
   end
 
   get '/businesses/:businessId/bills' do
     content_type :json
-    Payloads.bill_list_get.to_json
+    Payloads::Bill.bill_list_get.to_json
   end
 
   get '/businesses/:businessId/contacts' do
+    pp params
+    allowed_params = %w[businessId keywords sortOrder orderBy type showInactive]
+    status 400 if CheckRules.params_not_allowed?(params, allowed_params)
     content_type :json
     Payloads::Contact.contact_list_get.to_json
+  end
+
+  get '/businesses/:businessId/sale-returns' do
+    pp params
+    content_type :json
+    Payloads::CustomerReturn.customer_return_list_get.to_json
+  end
+
+  get '/test' do
+    status 200
   end
 end

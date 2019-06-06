@@ -1,6 +1,13 @@
+# frozen_string_literal: true
+
 require 'rerun'
 require_relative 'lib/stub'
+require 'rspec/core/rake_task'
 
 task :start do
-  rerun Stub.run!
+  Stub.run!
 end
+
+RSpec::Core::RakeTask.new(:spec)
+
+task :spec
