@@ -45,6 +45,14 @@ class Stub < Sinatra::Base
     Payloads::CustomerReturn.customer_return_list_get.to_json
   end
 
+  get '/businesses/:businessId/superannuation-funds' do
+    pp params
+    allowed_params = %w[businessId keywords sortOrder orderBy]
+    status 400 if CheckRules.params_not_allowed?(params, allowed_params)
+    content_type :json
+    SuperannuationFunds.super_funds_list_get.to_json
+  end	
+
   get '/test' do
     status 200
   end
