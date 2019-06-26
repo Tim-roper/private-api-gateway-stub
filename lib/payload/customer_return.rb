@@ -17,5 +17,14 @@ module Payloads
         "TotalAmount": 360.5
       }
     end
+
+    def self.sale_return_read
+     {
+      "Id": 1,
+      "CustomerId": 1,
+      "Address": "Island Way Motel 22 Campbell Way Hornsby  NSW  2034",
+      "Amount": -52.5
+     } 
+    end
   end
 end

@@ -39,6 +39,11 @@ class Stub < Sinatra::Base
     Payloads::Contact.contact_list_get.to_json
   end
 
+  get '/businesses/:businessId/contacts/:contactId' do
+    content_type :json
+    Payloads::Contact.contact_detail.to_json
+  end
+
   get '/businesses/:businessId/sale-returns' do
     pp params
     content_type :json
@@ -51,7 +56,43 @@ class Stub < Sinatra::Base
     status 400 if CheckRules.params_not_allowed?(params, allowed_params)
     content_type :json
     SuperannuationFunds.super_funds_list_get.to_json
-  end	
+  end
+
+  get '/businesses/:businessId/sale-returns/:invoiceId' do
+    pp params
+    content_type :json
+    Payloads::CustomerReturn.sale_return_read.to_json
+  end
+
+  get '/businesses/:businessId/display-ids/:resourceName' do
+    pp params
+    content_type :json
+    {"DisplayId": "GJ000009"}.to_json
+  end
+
+  get '/businesses/:businessId/accounts' do
+    pp params
+    content_type :json
+    Payloads::Account.accounts_list.to_json
+  end
+
+  get '/businesses/:businessId/accounts/:accountId' do
+    content_type :json
+    Payloads::Account.account_detail.to_json
+  end
+
+  get '/businesses/:businessId/pay-refunds/:refundId' do
+    content_type :json
+    Payloads::PayRefund.pay_refund_detail.to_json
+  end
+
+  delete '/businesses/:businessId/pay-refunds/:refundId' do
+    status 200
+  end
+
+  post '/businesses/:businessId/pay-refunds' do
+    status 200
+  end
 
   get '/test' do
     status 200
